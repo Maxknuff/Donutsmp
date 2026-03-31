@@ -45,23 +45,30 @@
           <i data-lucide="package" class="panel-icon"></i>
           <h2>Materialpreise</h2>
         </div>
-        <button class="btn-add" id="btn-add-material">
-          <i data-lucide="plus"></i>
-          <span>Material</span>
-        </button>
+        <div class="header-actions">
+          <button class="btn-add" id="btn-add-material">
+            <i data-lucide="plus"></i>
+            <span>Neu</span>
+          </button>
+          <button class="btn-icon panel-toggle" id="btn-toggle-materials" title="Materialien einklappen">
+            <i data-lucide="chevron-up"></i>
+          </button>
+        </div>
       </div>
 
-      <div class="materials-list" id="materials-list">
-        <!-- Injected by JS -->
+      <div class="materials-list-wrapper" id="materials-list-wrapper">
+        <div class="materials-list" id="materials-list">
+          <!-- Injected by JS -->
+        </div>
       </div>
     </section>
 
-    <!-- ====== MIDDLE: CRAFTING ====== -->
-    <section class="panel panel-crafting" id="panel-crafting">
+    <!-- ====== MIDDLE: ZIEL-ITEMS ====== -->
+    <section class="panel panel-crafting" id="panel-recipes">
       <div class="panel-header">
         <div class="panel-title-row">
-          <i data-lucide="hammer" class="panel-icon"></i>
-          <h2>Crafting</h2>
+          <i data-lucide="crosshair" class="panel-icon"></i>
+          <h2>Ziel-Items</h2>
         </div>
         <button class="btn-add" id="btn-add-recipe">
           <i data-lucide="plus"></i>
@@ -69,25 +76,9 @@
         </button>
       </div>
 
-      <!-- Item-Auswahl -->
-      <div class="crafting-item-select">
-        <label class="field-label">Ziel-Item</label>
-        <div class="custom-select-wrapper">
-          <select id="recipe-select" class="custom-select">
-            <!-- Filled by JS -->
-          </select>
-          <i data-lucide="chevron-down" class="select-arrow"></i>
-        </div>
-      </div>
-
-      <!-- Rezept-Details -->
-      <div class="recipe-card" id="recipe-card">
-        <!-- Filled by JS -->
-      </div>
-
       <!-- Menge -->
-      <div class="crafting-qty-row">
-        <label class="field-label" for="craft-qty">Menge (Crafts)</label>
+      <div class="crafting-qty-row" style="margin-bottom: 8px;">
+        <label class="field-label" for="craft-qty">Globale Menge (Crafts pro Item)</label>
         <div class="qty-control">
           <button class="qty-btn" id="qty-minus"><i data-lucide="minus"></i></button>
           <input type="number" id="craft-qty" class="qty-input" value="1" min="1" max="9999" />
@@ -95,13 +86,8 @@
         </div>
       </div>
 
-      <!-- Verkaufspreis -->
-      <div class="sell-price-row">
-        <label class="field-label" for="sell-price">Verkaufspreis <span class="unit-label">/ Stück</span></label>
-        <div class="price-input-wrap">
-          <span class="price-currency">$</span>
-          <input type="number" id="sell-price" class="price-input" placeholder="0.00" min="0" step="0.01" />
-        </div>
+      <div class="recipes-list" id="recipes-list">
+        <!-- Injected by JS: List of all recipes with their sell-price inputs -->
       </div>
     </section>
 
@@ -110,48 +96,38 @@
       <div class="panel-header">
         <div class="panel-title-row">
           <i data-lucide="trending-up" class="panel-icon"></i>
-          <h2>Ergebnis</h2>
+          <h2>Bester Trade</h2>
         </div>
       </div>
 
       <!-- Profitanzeige -->
       <div class="profit-display" id="profit-display">
+        <div class="best-trade-title" id="best-trade-title">Momentan bester Trade</div>
         <div class="profit-badge" id="profit-badge">
           <span id="profit-emoji">💰</span>
         </div>
+        <div class="best-trade-name" id="best-trade-name">Keine profitablen Trades</div>
         <div class="profit-value" id="profit-value">–</div>
         <div class="profit-label" id="profit-label">Gewinn</div>
       </div>
 
       <!-- Breakdown -->
-      <div class="result-breakdown">
+      <div class="result-breakdown" id="result-breakdown">
         <div class="breakdown-item">
-          <span class="breakdown-label">
-            <i data-lucide="layers" style="width:14px;height:14px;"></i>
-            Gesamtkosten
-          </span>
+          <span class="breakdown-label"><i data-lucide="layers" style="width:14px;height:14px;"></i>Gesamtkosten</span>
           <span class="breakdown-val" id="res-cost">–</span>
         </div>
         <div class="breakdown-item">
-          <span class="breakdown-label">
-            <i data-lucide="tag" style="width:14px;height:14px;"></i>
-            Verkaufserlös
-          </span>
+          <span class="breakdown-label"><i data-lucide="tag" style="width:14px;height:14px;"></i>Verkaufserlös</span>
           <span class="breakdown-val" id="res-revenue">–</span>
         </div>
         <div class="breakdown-divider"></div>
         <div class="breakdown-item highlight">
-          <span class="breakdown-label">
-            <i data-lucide="percent" style="width:14px;height:14px;"></i>
-            Marge
-          </span>
+          <span class="breakdown-label"><i data-lucide="percent" style="width:14px;height:14px;"></i>Marge</span>
           <span class="breakdown-val" id="res-margin">–</span>
         </div>
         <div class="breakdown-item highlight">
-          <span class="breakdown-label">
-            <i data-lucide="coins" style="width:14px;height:14px;"></i>
-            Gewinn (gesamt)
-          </span>
+          <span class="breakdown-label"><i data-lucide="coins" style="width:14px;height:14px;"></i>Gewinn (gesamt)</span>
           <span class="breakdown-val" id="res-profit-total">–</span>
         </div>
       </div>
@@ -160,7 +136,7 @@
       <div class="material-breakdown-wrap">
         <div class="material-breakdown-title">
           <i data-lucide="list" style="width:14px;height:14px;"></i>
-          Materialkosten-Aufstellung
+          Materialkosten (Bester Trade)
         </div>
         <div class="material-breakdown-list" id="material-breakdown-list">
           <!-- Filled by JS -->

@@ -315,6 +315,27 @@ body::before {
 /* ============================================================
    MATERIALS LIST
    ============================================================ */
+.materials-list-wrapper {
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, margin 0.3s ease;
+  max-height: 2000px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.materials-list-wrapper.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin-top: -10px;
+}
+
+.panel-toggle i {
+  transition: transform 0.3s ease;
+}
+
+.panel-toggle.collapsed i {
+  transform: rotate(180deg);
+}
+
 .materials-list {
   display: flex;
   flex-direction: column;
@@ -425,7 +446,7 @@ body::before {
 }
 
 /* ============================================================
-   CRAFTING
+   RECIPES / ZIEL-ITEMS
    ============================================================ */
 .field-label {
   display: block;
@@ -435,6 +456,96 @@ body::before {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
+}
+
+.recipes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: calc(100vh - 260px);
+  overflow-y: auto;
+  padding-right: 2px;
+}
+.recipes-list::-webkit-scrollbar { width: 4px; }
+.recipes-list::-webkit-scrollbar-track { background: transparent; }
+.recipes-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.recipe-list-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  animation: slideIn 0.25s ease;
+  cursor: pointer;
+}
+.recipe-list-item:hover {
+  border-color: var(--orange-light);
+  background: var(--orange-subtle);
+}
+.recipe-list-item.selected {
+  border-color: var(--orange);
+  background: var(--orange-subtle);
+  box-shadow: 0 0 0 1px var(--orange);
+}
+
+.rl-emoji {
+  font-size: 20px;
+  line-height: 1;
+  width: 28px;
+  text-align: center;
+}
+.rl-info { min-width: 0; }
+.rl-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rl-cost {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.rl-inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.rl-profit-label {
+  font-size: 13px;
+  font-weight: 700;
+}
+.rl-profit-label.positive { color: var(--green); }
+.rl-profit-label.negative { color: var(--red); }
+.rl-profit-label.neutral { color: var(--muted); }
+
+.rl-price-input {
+  width: 80px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--white);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--black);
+  padding: 4px 6px;
+  outline: none;
+  text-align: right;
+  transition: var(--transition);
+}
+.rl-price-input:focus {
+  border-color: var(--orange);
 }
 
 /* Custom Select */
@@ -661,6 +772,23 @@ body::before {
   background: var(--bg);
   border: 1px solid var(--border);
   transition: var(--transition);
+}
+
+.best-trade-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.best-trade-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 8px;
+  text-align: center;
 }
 
 .profit-badge {
